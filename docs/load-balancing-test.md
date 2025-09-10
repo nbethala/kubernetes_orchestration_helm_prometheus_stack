@@ -5,11 +5,10 @@ This document captures a manual test of load balancing behavior in a Kubernetes 
 
 ## 🧪 Test Setup
 
-- **Deployment Name**: `my-webapp`
+- **Deployment Name**: my-webapp
 - **Replicas**: 5
 - **Service Type**: ClusterIP
 - **Goal**: Validate that traffic is evenly distributed across pods
-
 
 ## **Load balancing test **
 Step 1: Get Service IP
