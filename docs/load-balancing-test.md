@@ -2,7 +2,6 @@
 
 This document captures a manual test of load balancing behavior in a Kubernetes cluster using a multi-replica deployment and a ClusterIP service.
 
----
 
 ## 🧪 Test Setup
 
@@ -11,7 +10,6 @@ This document captures a manual test of load balancing behavior in a Kubernetes 
 - **Service Type**: ClusterIP
 - **Goal**: Validate that traffic is evenly distributed across pods
 
----
 
 ## **Load balancing test **
 Step 1: Get Service IP
