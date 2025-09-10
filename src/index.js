@@ -18,7 +18,8 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.send(`
     <h1>🚀 Devops App Ready For Deployment - Nancy B</h1>
-    <h1>IN GOD WE TRUST!</h1>
+    <h1>Do the difficult things while they are easy and do the great things while they are small.</h1>
+    <h1>A journey of a thousand miles must begin with a single step -Lao Tzu</h1>
     <p>This app was deployed automatically!</p>
     <p>Current time: ${new Date().toLocaleString()}</p>
     <p>Total requests: ${requestCount}</p>
