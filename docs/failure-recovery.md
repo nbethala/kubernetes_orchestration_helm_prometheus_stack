@@ -16,7 +16,6 @@ This document captures a simulated failure scenario in a Kubernetes cluster, whe
 
 ## 📦 Pod Status Before and After Deletion
 
-```bash
 kubectl get pods -w
 
 **Initial state:**

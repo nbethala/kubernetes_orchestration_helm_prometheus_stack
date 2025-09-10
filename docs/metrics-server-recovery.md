@@ -16,9 +16,11 @@ This document outlines the exact steps taken to restore metrics-server functiona
    kubectl delete deployment metrics-server -n kube-system
 
 3. **Reinstalled Metrics Server**
+
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
 4. **Patched Deployment for Local Compatibility**
+
    Enabled host networking, changed secure port, and added kubelet flags:
    kubectl patch deployment metrics-server -n kube-system --type='json' -p='[
   { "op": "add", "path": "/spec/template/spec/hostNetwork", "value": true },
@@ -34,21 +36,23 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 ]'
 
 5. **Verified Pod Health**
+
    metrics-server pods transitioned to 1/1 Running
 
 6. **Confirmed Metrics Availability**
 
-**kubectl top pods**
-NAME                        CPU(cores)   MEMORY(bytes)   
-my-webapp-c8fd8b9dd-mbljp   1m           22Mi            
-my-webapp-c8fd8b9dd-qbr2b   1m           22Mi         
+   **kubectl top pods**
+    NAME                        CPU(cores)   MEMORY(bytes)   
+    my-webapp-c8fd8b9dd-mbljp   1m           22Mi            
+    my-webapp-c8fd8b9dd-qbr2b   1m           22Mi         
 
-**kubectl top nodes**
-NAME             CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
-docker-desktop   198m         4%       2294Mi          29%         
+    **kubectl top nodes**
+    NAME             CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+    docker-desktop   198m         4%       2294Mi          29%         
 
 
 📋 What You Just Achieved
+
 ✅ Diagnosed TLS and kubelet connectivity issues
 
 ✅ Applied a custom patch with hostNetwork, port remapping, and kubelet flags

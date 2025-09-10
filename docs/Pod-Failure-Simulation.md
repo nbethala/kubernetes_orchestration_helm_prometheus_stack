@@ -1,4 +1,4 @@
-# STAR Method: Pod Failure Simulation
+# Pod Failure Simulation
 
 ## **Situation**
 A pod (my-webapp-c8fd8b9dd-j7nn8) was manually deleted to simulate a crash scenario in a local Kubernetes cluster running on Docker Desktop.

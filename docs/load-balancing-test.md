@@ -16,7 +16,7 @@ This document captures a manual test of load balancing behavior in a Kubernetes 
 ## 📦 Deployment & Service Configuration
 
 ### Deployment
-```yaml
+Yaml File : 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -62,7 +62,7 @@ Step 2: Send Repeated Requests
 for i in {1..20}; do curl http://<cluster-ip>/; done
 Note: Each pod should return a unique identifier (e.g., hostname or pod name) to confirm traffic distribution.
 
-## **STAR Method: Load Balancing Validation **
+## **Load Balancing Validation **
 
 **Situation**
 A multi-replica web application was deployed in a Kubernetes cluster. The goal was to validate internal load balancing behavior using a ClusterIP service.
