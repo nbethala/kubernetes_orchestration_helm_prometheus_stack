@@ -13,45 +13,6 @@ This document captures a manual test of load balancing behavior in a Kubernetes 
 
 ---
 
-## 📦 Deployment & Service Configuration
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-webapp
-spec:
-  replicas: 5
-  selector:
-    matchLabels:
-      app: my-webapp
-  template:
-    metadata:
-      labels:
-        app: my-webapp
-    spec:
-      containers:
-        - name: my-webapp
-          image: my-webapp:latest
-          ports:
-            - containerPort: 80
-
-
-## **Service**
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-webapp-service
-spec:
-  selector:
-    app: my-webapp
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP
-
-
 ## **Load balancing test **
 Step 1: Get Service IP
 
