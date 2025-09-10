@@ -2,15 +2,17 @@
 
 This document captures a manual test of load balancing behavior in a Kubernetes cluster using a multi-replica deployment and a ClusterIP service.
 
-
 ## 🧪 Test Setup
+Deployment Name: my-webapp
 
-- **Deployment Name**: my-webapp
-- **Replicas**: 5
-- **Service Type**: ClusterIP
-- **Goal**: Validate that traffic is evenly distributed across pods
+Replicas: 5
 
-## **Load balancing test **
+Service Type: ClusterIP
+
+Goal: Validate that traffic is evenly distributed across pods
+
+
+## 🔁 Load Balancing Test
 Step 1: Get Service IP
 
 kubectl get svc my-webapp-service
@@ -21,8 +23,7 @@ for i in {1..20}; do curl http://<cluster-ip>/; done
 
 Note: Each pod should return a unique identifier (e.g., hostname or pod name) to confirm traffic distribution.
 
-## **Load Balancing Validation **
-
+## Load Balancing Validation
 **Situation**
 A multi-replica web application was deployed in a Kubernetes cluster. The goal was to validate internal load balancing behavior using a ClusterIP service.
 
