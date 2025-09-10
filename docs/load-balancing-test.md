@@ -15,8 +15,6 @@ This document captures a manual test of load balancing behavior in a Kubernetes 
 
 ## 📦 Deployment & Service Configuration
 
-### Deployment
-Yaml File : 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,10 +54,13 @@ spec:
 
 ## **Load balancing test **
 Step 1: Get Service IP
+
 kubectl get svc my-webapp-service
 
 Step 2: Send Repeated Requests
+
 for i in {1..20}; do curl http://<cluster-ip>/; done
+
 Note: Each pod should return a unique identifier (e.g., hostname or pod name) to confirm traffic distribution.
 
 ## **Load Balancing Validation **
