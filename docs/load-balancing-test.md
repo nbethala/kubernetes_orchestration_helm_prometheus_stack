@@ -24,13 +24,17 @@ for i in {1..20}; do curl http://<cluster-ip>/; done
 Note: Each pod should return a unique identifier (e.g., hostname or pod name) to confirm traffic distribution.
 
 ## Load Balancing Validation
+
 **Situation**
+
 A multi-replica web application was deployed in a Kubernetes cluster. The goal was to validate internal load balancing behavior using a ClusterIP service.
 
 **Task**
+
 Ensure that incoming traffic is evenly distributed across all running pods and that the service routes requests reliably.
 
 **Action**
+
 Deployed my-webapp with 5 replicas
 
 Exposed it via a ClusterIP service
@@ -42,6 +46,7 @@ Verified responses from multiple pods
 Monitored pod logs and service events
 
 **Result**
+
 Traffic was successfully distributed across all pods
 
 No single pod was overloaded
