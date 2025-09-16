@@ -63,6 +63,17 @@ Golden‑signal dashboards
 
 Real‑time alerting
 
+## Golden Signal Dashboards and Alerting : 
+
+<img width="2787" height="1384" alt="sre-golden-signals - Edited" src="https://github.com/user-attachments/assets/fd3a7402-1947-41e4-afcd-d0b8440cfc91" />
+
+<img width="2671" height="1355" alt="grafana-dashboard-observability - Edited" src="https://github.com/user-attachments/assets/fda18a24-451d-4992-b57d-9ccb38c14393" />
+
+
+<img width="2767" height="1422" alt="grafana-dashboard-2 - Edited" src="https://github.com/user-attachments/assets/55fe9ccf-b8ff-4910-b35c-9bb730ece8d7" />
+
+
+
 Repository Structure
 
 ```plaintext
