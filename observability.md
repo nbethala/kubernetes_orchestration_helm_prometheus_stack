@@ -18,6 +18,7 @@ This project implements a **production‑grade observability stack** for `my-nod
 ## Architecture diagram 
 
 
+<img width="3840" height="773" alt="observability-architecture-2" src="https://github.com/user-attachments/assets/78cc1c24-e6bf-427d-ae65-5cc53908e6eb" />
 
 
 ## How to read this diagram
