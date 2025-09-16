@@ -1,44 +1,58 @@
-// Setup and Configuration
 const express = require('express');
+const client = require('prom-client');
+
 const app = express();
 const PORT = 3001;
 
-// Basic Metrics Tracking : HTTP request and Health check
-let requestCount = 0;
-let healthCheckCount = 0;
-const startTime = Date.now();
+// Prometheus setup
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
 
-// Middleware for Request Counting : increments count for every incoming request
+const requestCounter = new client.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['route']
+});
+register.registerMetric(requestCounter);
+
+const healthCheckCounter = new client.Counter({
+  name: 'health_checks_total',
+  help: 'Total number of health check requests'
+});
+register.registerMetric(healthCheckCounter);
+
+// Middleware to count requests
 app.use((req, res, next) => {
-  requestCount++;
+  requestCounter.inc({ route: req.path });
   next();
 });
 
-// Home Page Route : HTML page with live timestamp
+// Routes
 app.get('/', (req, res) => {
-  res.send(`
-    <h1>🚀 Devops App Ready For Deployment - Nancy B</h1>
-    <h1>Do the difficult things while they are easy and do the great things while they are small.</h1>
-    <h1>A journey of a thousand miles must begin with a single step -Lao Tzu</h1>
-    <p>This app was deployed automatically!</p>
-    <p>Current time: ${new Date().toLocaleString()}</p>
-    <p>Total requests: ${requestCount}</p>
-  `);
+  res.send(`<h1>🚀 DevOps App Ready For Deployment - Nancy B</h1>`);
 });
 
-// Health Check Endpoint: app health status(JSON PAYLOAD)
+// use this to test for prometheus to trigger an Alert to ALert Manager
+//app.get('/fail', (_req, res) => {
+//  res.status(500).send('Simulated error');
+//});
+
 app.get('/health', (req, res) => {
-  healthCheckCount++;
-  res.json({ 
-    status: 'healthy', 
+  healthCheckCounter.inc();
+  res.json({
+    status: 'healthy',
     time: new Date(),
-    uptime: process.uptime(),
-    requests: requestCount
+    uptime: process.uptime()
   });
 });
 
-// Start the Express server
+// ✅ Metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
-  console.log(`Health status available at http://localhost:${PORT}/health`);
+  console.log(`Metrics available at http://localhost:${PORT}/metrics`);
 });

@@ -1,3 +1,4 @@
+# Deploy my-webapp into kubernettes for autoscaling/load balancing
 apiVersion: apps/v1
 kind: Deployment
 metadata:

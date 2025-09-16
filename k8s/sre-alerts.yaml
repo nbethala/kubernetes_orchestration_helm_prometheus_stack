@@ -1,0 +1,50 @@
+# Prometheus Alerts — Set Golden Signal Thresholds
+# install the kube-prometheus-stack Helm chart, which deploys Prometheus Operator
+# Installs all CRDs (Prometheus, ServiceMonitor, PrometheusRule, etc.)
+# Deploys Prometheus, Alertmanager, Grafana, node exporters, kube-state-metrics
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: sre-golden-signal-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring-stack   # match your Prometheus release label
+spec:
+  groups:
+    - name: sre-golden-signals
+      rules:
+        - alert: HighRequestLatency
+          expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="my-node-webapp"}[5m])) by (le)) > 0.5
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High request latency (p95 > 0.5s)"
+            description: "95th percentile latency is above 0.5s for 5 minutes."
+
+        - alert: HighErrorRate
+          expr: (sum(rate(http_requests_total{job="my-node-webapp",status=~"5.."}[5m])) / sum(rate(http_requests_total{job="my-node-webapp"}[5m]))) * 100 > 5
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High error rate (>5%)"
+            description: "Error rate is above 5% for 5 minutes."
+
+        - alert: HighCPUSaturation
+          expr: rate(process_cpu_seconds_total{job="my-node-webapp"}[1m]) * 100 > 80
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage (>80%)"
+            description: "CPU usage is above 80% for 5 minutes."
+
+        - alert: HighMemoryUsage
+          expr: process_resident_memory_bytes{job="my-node-webapp"} > 500000000
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High memory usage (>500MB)"
+            description: "Memory usage is above 500MB for 5 minutes."
