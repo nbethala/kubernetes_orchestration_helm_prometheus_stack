@@ -1,12 +1,6 @@
-
----
-
-## **`observability-setup.md`** (Full Procedure)
-
-```markdown
 # 📚 Observability Setup — Full Procedure
 
-This document details the complete setup of Prometheus, Grafana, and Alertmanager in Kubernetes using Helm, configured to monitor `my-node-webapp` with SRE golden‑signal alerts.
+This document details the complete setup of **Prometheus**, **Grafana**, and **Alertmanager** in Kubernetes using Helm, configured to monitor `my-node-webapp` with SRE golden‑signal alerts.
 
 ---
 
@@ -31,8 +25,7 @@ Grafana
 Node Exporter, kube-state-metrics
 
 2️⃣ Expose my-node-webapp Metrics
-
-Service with Named Port
+Service with Named Port:
 
 apiVersion: v1
 kind: Service
@@ -51,7 +44,6 @@ spec:
 
 
 3️⃣ Create ServiceMonitor
-
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -71,11 +63,11 @@ spec:
     matchNames:
       - monitoring
 
-Apply:
+Apply : 
 kubectl apply -f my-node-webapp-servicemonitor.yaml
 
-Add Golden‑Signal Alerts
 
+4️⃣ Add Golden‑Signal Alerts
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -120,15 +112,13 @@ spec:
             summary: "High memory usage (>500MB)"
             description: "Memory usage is above 500MB for 5 minutes."
 
-Apply:
+Apply: 
 kubectl apply -f sre-alerts.yaml
 
 Note: Restart Prometheus pods after adding new rules:
-
 kubectl delete pod -n monitoring -l app.kubernetes.io/name=prometheus
 
-
-Access UIs
+5️⃣ Access UIs
 
 Prometheus
 kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090
@@ -138,7 +128,6 @@ kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090
 Grafana
 kubectl port-forward -n monitoring svc/monitoring-stack-grafana 3000:80
 
-
 → http://localhost:3000 Default login: admin / (get password via kubectl get secret)
 
 Alertmanager
@@ -146,17 +135,18 @@ kubectl port-forward -n monitoring svc/alertmanager-operated 9093:9093
 
 → http://localhost:9093
 
-Validate Alerts
+6️⃣ Validate Alerts
 Trigger HighErrorRate
 
 hey -z 6m -c 10 http://localhost:8080/fail
-(or curl loop)
-
+# or use a curl loop
 
 Trigger HighRequestLatency
+
 Add artificial delay in handler and send load.
 
-Result
+
+✅ Result
 Automated metric scraping via ServiceMonitor
 
 Grafana dashboards for golden signals
@@ -166,5 +156,6 @@ PrometheusRule alerts firing into Alertmanager
 End‑to‑end observability pipeline operational
 
 
----
+
+
 

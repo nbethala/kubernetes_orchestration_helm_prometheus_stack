@@ -17,56 +17,33 @@ This project implements a **production‑grade observability stack** for `my-nod
 
 ## Architecture diagram 
 
-flowchart LR
-  subgraph K8s[Kubernetes cluster]
-    APP[my-node-webapp\n/metrics]
-    SVC[(Service: my-node-webapp\nport: http/3001)]
-  end
-
-  SM[ServiceMonitor\n(release=monitoring-stack)]
-  PO[Prometheus Operator]
-  PR[Prometheus\n(operated)]
-  RULE[PrometheusRule\n(golden signals)]
-  GRAF[Grafana]
-  AM[Alertmanager]
-
-  APP --> SVC
-  SVC -. discovery .-> SM
-  SM --> PO
-  RULE --> PO
-  PO -->|generates rulefiles ConfigMap| PR
-  PR -->|scrapes metrics| APP
-  PR --> GRAF
-  PR --> AM
 
 
-Observability Flow — Kubernetes + Prometheus + Grafana
 
-How to read it:
+## How to read this diagram
 
-my-node-webapp (inside Kubernetes) exposes /metrics.
-
-ServiceMonitor (CRD) discovers the service automatically.
-
-Prometheus scrapes the metrics.
-
-PrometheusRule defines golden‑signal alerts.
-
-Grafana visualizes the metrics.
-
-Alertmanager receives and routes alerts.
+1. **my‑node‑webapp** – Runs inside Kubernetes and exposes metrics at `/metrics`.
+2. **ServiceMonitor** *(Custom Resource Definition)* – Automatically discovers the service endpoint.
+3. **Prometheus** – Periodically scrapes those metrics for storage and analysis.
+4. **PrometheusRule** – Defines alerting rules based on golden‑signal indicators.
+5. **Grafana** – Queries Prometheus and visualizes the collected metrics in dashboards.
+6. **Alertmanager** – Receives alerts from Prometheus and routes them to configured channels (e.g., email, Slack, PagerDuty).
 
 
 ## ⚡ Quick Start
-```bash
+
 # Install kube-prometheus-stack
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
 helm repo update
+
 kubectl create namespace monitoring
+
 helm install monitoring-stack prometheus-community/kube-prometheus-stack -n monitoring
 
 # Deploy ServiceMonitor & Alerts
 kubectl apply -f my-node-webapp-servicemonitor.yaml
+
 kubectl apply -f sre-alerts.yaml
 
 ## Validation
@@ -84,4 +61,39 @@ Automated metric scraping
 Golden‑signal dashboards
 
 Real‑time alerting
+
+Repository Structure
+
+```plaintext
+.
+├── LICENSE                               # Open-source license for the project
+├── README.md                             # Main project overview and usage instructions
+├── cleanup-script.md                     # Markdown doc describing cleanup steps or scripts
+├── docs/                                  # Documentation folder (designs, guides, references)
+├── k8s/                                   # Kubernetes manifests and related configs
+│   ├── .gitkeep                           # Placeholder to keep folder in version control
+│   ├── app_deploy.yaml                    # Deployment manifest for the application
+│   ├── docker-compose.yaml                # Docker Compose setup (local dev/testing)
+│   ├── my-node-webapp.yaml                # K8s manifest for my-node-webapp service/deployment
+│   ├── prometheus.yaml                    # Prometheus deployment/service configuration
+│   ├── prometheus.yml                     # Prometheus scrape config file
+│   └── sre-alerts.yaml                    # PrometheusRule for SRE golden-signal alerts
+├── observability-setup.md                 # Full procedure for setting up observability stack
+├── observability-troubleshooting.md       # Troubleshooting guide for observability issues
+├── observability.md                       # General observability notes or summary
+├── scripts/                               # Utility scripts for automation/maintenance
+│   └── cleanup-observability.sh           # Script to remove observability components
+├── src/                                   # Application source code
+│   ├── Dockerfile                         # Docker build instructions for the app
+│   ├── index.js                           # Main Node.js application entry point
+│   ├── node_modules/                      # Installed Node.js dependencies
+│   ├── package-lock.json                  # Locked dependency versions for reproducible builds
+│   └── package.json                       # Project metadata and dependencies
+└── troubleshooting/                       # Test and recovery scenario documentation
+    ├── Pod-Failure-Simulation.md          # Steps to simulate pod failures
+    ├── failure-recovery.md                 # Recovery procedures for failures
+    ├── load-balancing-test.md              # Load balancing test scenarios and results
+    ├── metrics-server-recovery.md          # Recovery steps for metrics-server issues
+    └── scaling-test.md                     # Horizontal/vertical scaling test documentation
+
 
