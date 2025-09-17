@@ -94,33 +94,37 @@ Integrated Prometheus/Grafana for observability and automated infrastructure del
 
 ## 📂 Repository Structure
 
+```
+
 project-3-k8s-to-aks/
 ├── k8/                          # Raw Kubernetes YAMLs (local testing)
 │   ├── deployment.yaml
 │   ├── service.yaml
 │   └── namespace.yaml
-├── helm-chart/                 # Helm chart for templated deployment
+├── helm-chart/                  # Helm chart for templated deployment
 │   ├── Chart.yaml
 │   ├── values.yaml
 │   └── templates/
 │       ├── deployment.yaml
 │       ├── service.yaml
 │       └── ingress.yaml
-├── terraform/                  # AKS infrastructure provisioning
+├── terraform/                   # AKS infrastructure provisioning
 │   ├── main.tf
 │   ├── variables.tf
 │   └── modules/
 │       └── aks/
-├── .github/                    # CI/CD workflows
+├── .github/                     # CI/CD workflows
 │   └── workflows/
 │       └── deploy.yaml
-├── dashboards/                 # Grafana dashboards (JSON exports)
+├── dashboards/                  # Grafana dashboards (JSON exports)
 │   └── app-metrics.json
-├── src/                        # App source code (e.g., Python, Node.js)
+├── src/                         # App source code (e.g., Python, Node.js)
 │   └── app.py
-├── README.md                   # Project overview and recruiter-facing summary
-├── .gitignore                  # Ignore build artifacts, secrets, etc.
-└── LICENSE                     # Optional: MIT or Apache license
+├── README.md                    # Project overview and recruiter-facing summary
+├── .gitignore                   # Ignore build artifacts, secrets, etc.
+└── LICENSE                      # Apache license
+
+```
 
 
 ## ✅ Outcomes & Impact
